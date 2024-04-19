@@ -18,7 +18,7 @@ local function sendLog(playerIdentifier, message)
             type = "rich",
             color = 0xFF0000,
             footer = {
-                text = "Amsterdam Roleplay | Log"
+                text = "HW Development | Logs"
             },
             timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ")
         }
