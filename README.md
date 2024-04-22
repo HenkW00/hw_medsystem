@@ -9,14 +9,27 @@ Script got rewritten by HW Development.
 - HW Development | HenkW
 
 **Changelog:**
-- Added new export for retreiving data/using the /med function.
-- Currently radial menu (hw_radialmenu) works with this script.
+- Added Config.IDmode for changing functions for radial menu.
+- Added new function for retreiving correct player ID based on how the Config.IDmode is set. (either we use 'own' or 'player')
+- Changed new export for retreiving/using the med system via a radial menu. (for now i just created my own, since i then can go wild on how i want it)
+
+**Important note from the developer!**
+For now the export is there, but i cant give you that much support on how to use it, if u dont use my (hw_radialmenu) on a other radial menu.
+Since i focussed on working alot with OX, its easy and they just have alot of docs to learn from <3
+
+It does use the OX Radial Menu because its easy to use, and we already work with ox_lib/ox_inventory/oxmysql/ox_target in our scripts like i mentioned.
+But if you have any suggestions/ideas please join our discord, create a support ticket and let us know what you would like to see beeing implemented into the radial menu.
+
+(yes i know, this is the med system script, but since this release is working now with the radial menu its good to inform you as reader)
+
 
 🛠 **Requirements**
 - ESX Server
+- HW Radial Menu --> Optional
 
 🌐 **Requirements Download links**
 - es_extended: [https://github.com/esx-framework/esx_core]
+- hw_radialmenu: [https://github.com/HenkW00/hw_radialmenu] (This is only needed if you use the radial menu script, since we can retreive med stats via export)
 
 ✅ **Features**
 - Any players can do /med [player ID] to check someone’s medical info like where they’ve been hit
