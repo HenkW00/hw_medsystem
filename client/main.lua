@@ -183,37 +183,40 @@ AddEventHandler('hw_medsystem:send', function(req)
 	TriggerServerEvent('hw_medsystem:print', req, math.floor(pulse * (blood / 90)), area, blood, a, b, c, bleeding)
 end)
 
--- For own check!
--- Export function to send medical requests
-function SendMedicalRequest(requestType)
-    local health = GetEntityHealth(GetPlayerPed(-1))
-    if health > 0 then
-        pulse = (health / 4 + math.random(19, 28)) 
-    end
-    local playerCoords = GetEntityCoords(GetPlayerPed(-1))
-    
-    -- Trigger a server event with relevant medical request data
-    TriggerServerEvent('hw_medsystem:print', requestType, math.floor(pulse * (blood / 90)), area, blood, playerCoords.x, playerCoords.y, playerCoords.z, bleeding)
+if Config.IDmode == 'own' then
+	-- For own check!
+	-- Export function to send medical requests
+	function SendMedicalRequest(requestType)
+		local health = GetEntityHealth(GetPlayerPed(-1))
+		if health > 0 then
+			pulse = (health / 4 + math.random(19, 28)) 
+		end
+		local playerCoords = GetEntityCoords(GetPlayerPed(-1))
+		
+		-- Trigger a server event with relevant medical request data
+		TriggerServerEvent('hw_medsystem:print', requestType, math.floor(pulse * (blood / 90)), area, blood, playerCoords.x, playerCoords.y, playerCoords.z, bleeding)
+	end
 end
 
--- Check nearby players!
--- Export function to send medical requests
--- function SendMedicalRequest(requestType)
---     local nearestPlayerId = GetNearestPlayer()
---     if nearestPlayerId ~= -1 then
---         local health = GetEntityHealth(GetPlayerPed(nearestPlayerId))
---         if health > 0 then
---             pulse = (health / 4 + math.random(19, 28)) 
---         end
---         local playerCoords = GetEntityCoords(GetPlayerPed(nearestPlayerId))
-        
---         -- Trigger a server event with relevant medical request data for the nearest player
---         TriggerServerEvent('hw_medsystem:print', requestType, math.floor(pulse * (blood / 90)), area, blood, playerCoords.x, playerCoords.y, playerCoords.z, bleeding)
---     else
---         print("No players nearby.")
---     end
--- end
-
+if Config.IDmode == 'player' then
+	-- Check nearby players!
+	Export function to send medical requests
+	function SendMedicalRequest(requestType)
+		local nearestPlayerId = GetNearestPlayer()
+		if nearestPlayerId ~= -1 then
+			local health = GetEntityHealth(GetPlayerPed(nearestPlayerId))
+			if health > 0 then
+				pulse = (health / 4 + math.random(19, 28)) 
+			end
+			local playerCoords = GetEntityCoords(GetPlayerPed(nearestPlayerId))
+			
+			-- Trigger a server event with relevant medical request data for the nearest player
+			TriggerServerEvent('hw_medsystem:print', requestType, math.floor(pulse * (blood / 90)), area, blood, playerCoords.x, playerCoords.y, playerCoords.z, bleeding)
+		else
+			print("No players nearby.")
+		end
+	end
+end
 
 -- Export the function for external use
 exports('SendMedicalRequest', SendMedicalRequest)

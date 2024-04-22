@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'HenkW'
 description 'Simple Med System for ESX rewritten by HW Development'
-version '1.1.8'
+version '1.1.9'
 
 client_scripts {
   'client/main.lua',

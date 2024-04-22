@@ -1,7 +1,6 @@
 # HW Scripts - Med System (Rewritten)
 
 **Description**
-
 This is an advanced medical system that can help improve medical RP.
 This script is made for NEW Update ESX 
 Script got rewritten by HW Development.
@@ -10,19 +9,8 @@ Script got rewritten by HW Development.
 - HW Development | HenkW
 
 **Changelog:**
-- Added debug function to server.
-- Added discord logging to server.
-- Added debug statements to server.
-- Made script more readable.
-- Added version support.
-- Optimized client-side.
-- Optimizer server-side.
-- Added helpers to both client and server-side.
-- Combined nested if statements into a single condition for checking job whitelist.
-- Removed unnecessary else condition in the RegisterCommand function.
-- Simplified the condition for sending logs in the sendLog function.
-- Removed redundant for loop iteration syntax.
-- Simplified the getIdentity function and removed redundant ~= nil checks.
+- Added new export for retreiving data/using the /med function.
+- Currently radial menu (hw_radialmenu) works with this script.
 
 🛠 **Requirements**
 - ESX Server
