@@ -98,30 +98,32 @@ end
 RegisterNetEvent('hw_medsystem:near')
 AddEventHandler('hw_medsystem:near', function(x, y, z, pulse, blood, nameF, nameL, area, bldn)
 	local md = Config.Declared
-	
-	debugLog("^2Received ^5proximity event.")
-	debugLog("Pulse: ^3" .. pulse .. "^5, Blood: ^3" .. blood .. "^5, Name: ^3" .. nameF .. " " .. nameL .. "^5, Area: ^3" .. area .. "^5, Bleeding: ^3" .. bldn .. "^5")
-	
-	if area == "HEAD" and blood <= 5 then
+
+	if blood <= 5 and pulse <= 10 or area == "HEAD" then
+	-- if area ~= nil then
 		cBlood = blood
 		cPulse = pulse
 		cNameF = nameF
 		cNameL = nameL
 		cArea = area
 			
-		ESX.ShowNotification(nameF .. ' ' .. nameL .. ' ' .. Config.Declared, true, true, 20)
-		message = nameF .. ' ' .. nameL .. ' ' .. Config.Declared
+	ESX.ShowNotification( nameF..' '..nameL..' '..Config.Declared , true , true, 20)   --- client
+		message = nameF..' '..nameL..' '..Config.Declared
 	
-		TriggerEvent('chat:addMessage', {
-            template = '<div class="chat-message ems"><b>Medical Center </b>: <b>' .. message .. '</b></div>',
+		TriggerEvent('chat:addMessage',  {
+            template = '<div class="chat-message ems"><b>Medical Center </b>: <b>'..message..'</b></div>',
             args = { -1, message }
         })
+		-- TriggerEvent('chatMessage', "Eastbound Medical: ", {255,0 , 0}, "^1 "..message..!")
+		   
+
+		
 	end
+	local a,b,c = GetEntityCoords(GetPlayerPed(-1))
 	
-	local a, b, c = GetEntityCoords(GetPlayerPed(-1))
-	
-	if GetDistanceBetweenCoords(x, y, z, a, b, c, false) < 10 then
+	if GetDistanceBetweenCoords(x,y,z,a,b,c,false) < 10 then
 		timer = Config.Timer
+		--ESX.ShowNotification( "MedSystem: [0-5] DEAD | [5-15] Needs hospital | [15-38] EMS Can help | [38-55] Police can help | [55+] Healthy", false,true,30)
 		cBlood = blood
 		cPulse = pulse
 		cNameF = nameF
@@ -129,14 +131,18 @@ AddEventHandler('hw_medsystem:near', function(x, y, z, pulse, blood, nameF, name
 		cArea = area
 		
 		if bldn == 1 then
-			cBleeding = "SLOW"
+		cBleeding = "SLOW"
 		elseif bldn == 2 then
-			cBleeding = "MEDIUM"
+		cBleeding = "MEDIUM"
 		elseif bldn == 5 then
-			cBleeding = "FAST"
+		cBleeding = "FAST"
 		elseif bldn == 0 then
-			cBleeding = "NONE"
+		cBleeding = "NONE"
 		end
+
+	
+	--	TriggerEvent('chatMessage', "Eastbound Medical", {255,0 , 0}, cNameF.." "..cNameL.."^1 DECLARED DEAD. ^6 PLEASE RESPAWN.!")
+		
 	else
 		timer = 0
 		cBlood = -1
@@ -146,6 +152,8 @@ AddEventHandler('hw_medsystem:near', function(x, y, z, pulse, blood, nameF, name
 		cArea = ""
 		cBleeding = "SLOW"
 	end
+	
+
 end)
 
 -- Thread to display player's health information
