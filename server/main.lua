@@ -1,4 +1,10 @@
-ESX = exports["es_extended"]:getSharedObject()
+local ESX, QBCore
+
+if Config.Framework == 'ESX' then
+    ESX = exports["es_extended"]:getSharedObject()
+elseif Config.Framework == 'QBCore' then
+    QBCore = exports['qb-core']:GetCoreObject()
+end
 
 -- Helper function for debugging
 local function debugLog(message)
@@ -31,7 +37,12 @@ end
 RegisterServerEvent('hw_medsystem:print')
 AddEventHandler('hw_medsystem:print', function(req, pulse, area, blood, x, y, z, bleeding)
     local _source = source
-    local xPlayer = ESX.GetPlayerFromId(_source)
+    local xPlayer
+    if Config.Framework == 'ESX' then
+        xPlayer = ESX.GetPlayerFromId(_source)
+    elseif Config.Framework == 'QBCore' then
+        xPlayer = QBCore.Functions.GetPlayer(_source)
+    end
     debugLog("^2Printing ^5medical system data.^5")
     debugLog("Source player ID: ^3" .. _source .. "^5")
     Wait(100)
@@ -43,7 +54,12 @@ AddEventHandler('hw_medsystem:print', function(req, pulse, area, blood, x, y, z,
 
     sendLog(_source, message)
 
-    local xPlayers = ESX.GetPlayers()
+    local xPlayers
+    if Config.Framework == 'ESX' then
+        xPlayers = ESX.GetPlayers()
+    elseif Config.Framework == 'QBCore' then
+        xPlayers = QBCore.Functions.GetPlayers()
+    end
     for i=1, #xPlayers do
         TriggerClientEvent('hw_medsystem:near', xPlayers[i], x, y, z, pulse, blood, name.firstname, name.lastname, area, bleeding)
     end
@@ -52,7 +68,12 @@ end)
 -- Main command function for player with permission to use
 RegisterCommand('med', function(source, args)
     local _source = source
-    local xPlayer = ESX.GetPlayerFromId(_source)
+    local xPlayer
+    if Config.Framework == 'ESX' then
+        xPlayer = ESX.GetPlayerFromId(_source)
+    elseif Config.Framework == 'QBCore' then
+        xPlayer = QBCore.Functions.GetPlayer(_source)
+    end
 
     for k,v in pairs(Config.jobs) do
         if v[xPlayer.job.name] then
@@ -69,7 +90,11 @@ RegisterCommand('med', function(source, args)
             end
         else
             debugLog("Player job ^1not ^5whitelisted.")
-            xPlayer.showNotification('Your job is not Whitelisted!', true , true, 30)
+            if Config.Framework == 'ESX' then
+                xPlayer.showNotification('Your job is not Whitelisted!', true , true, 30)
+            elseif Config.Framework == 'QBCore' then
+                QBCore.Functions.Notify('Your job is not Whitelisted!', 'error', 5000)
+            end
             local message = string.format("/med is **triggered** by player (id): `%s`. - The person is not authorized to use this command!", _source, args[1])
             debugLog("^1Unauthorized ^5med command message: ^3" .. message .. "^5")
             sendLog(_source, message)
@@ -79,7 +104,12 @@ end, false)
 
 -- Main identity function to check for player ID
 function getIdentity(source)
-    local xPlayer = ESX.GetPlayerFromId(source)
+    local xPlayer
+    if Config.Framework == 'ESX' then
+        xPlayer = ESX.GetPlayerFromId(source)
+    elseif Config.Framework == 'QBCore' then
+        xPlayer = QBCore.Functions.GetPlayer(source)
+    end
     local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {['@identifier'] = xPlayer.identifier})
     
     if result[1] then

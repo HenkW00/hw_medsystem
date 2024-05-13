@@ -2,8 +2,8 @@ fx_version 'cerulean'
 game 'gta5'
 
 author 'HenkW'
-description 'Simple Med System for ESX rewritten by HW Development'
-version '1.2.1'
+description 'Simple Med System for ESX and QBCore rewritten by HW Development'
+version '1.2.2'
 
 client_scripts {
   'client/main.lua',
@@ -16,6 +16,11 @@ server_scripts {
 }
 
 shared_scripts {
-  '@es_extended/imports.lua',
   'config/config.lua',
+}
+
+dependencies {
+  'hw_utils',
+  'es_extended',
+  -- 'qb-core'
 }

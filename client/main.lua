@@ -1,4 +1,10 @@
-ESX = exports["es_extended"]:getSharedObject()
+local ESX, QBCore
+
+if Config.Framework == 'ESX' then
+    ESX = exports["es_extended"]:getSharedObject()
+elseif Config.Framework == 'QBCore' then
+    QBCore = exports['qb-core']:GetCoreObject()
+end
 
 -- Variables declaration
 local health
@@ -100,30 +106,30 @@ AddEventHandler('hw_medsystem:near', function(x, y, z, pulse, blood, nameF, name
 	local md = Config.Declared
 
 	if blood <= 5 and pulse <= 10 or area == "HEAD" then
-	-- if area ~= nil then
 		cBlood = blood
 		cPulse = pulse
 		cNameF = nameF
 		cNameL = nameL
 		cArea = area
 			
-	ESX.ShowNotification( nameF..' '..nameL..' '..Config.Declared , true , true, 20)   --- client
-		message = nameF..' '..nameL..' '..Config.Declared
+	if Config.Framework == 'ESX' then
+	    ESX.ShowNotification( nameF..' '..nameL..' '..Config.Declared , true , true, 20) 
+	elseif Config.Framework == 'QBCore' then
+	    QBCore.Functions.Notify(nameF..' '..nameL..' '..Config.Declared, 'error', 5000)
+	end
 	
-		TriggerEvent('chat:addMessage',  {
+	message = nameF..' '..nameL..' '..Config.Declared
+	
+	TriggerEvent('chat:addMessage',  {
             template = '<div class="chat-message ems"><b>Medical Center </b>: <b>'..message..'</b></div>',
             args = { -1, message }
         })
-		-- TriggerEvent('chatMessage', "Eastbound Medical: ", {255,0 , 0}, "^1 "..message..!")
-		   
 
-		
 	end
 	local a,b,c = GetEntityCoords(GetPlayerPed(-1))
 	
 	if GetDistanceBetweenCoords(x,y,z,a,b,c,false) < 10 then
 		timer = Config.Timer
-		--ESX.ShowNotification( "MedSystem: [0-5] DEAD | [5-15] Needs hospital | [15-38] EMS Can help | [38-55] Police can help | [55+] Healthy", false,true,30)
 		cBlood = blood
 		cPulse = pulse
 		cNameF = nameF
@@ -140,9 +146,6 @@ AddEventHandler('hw_medsystem:near', function(x, y, z, pulse, blood, nameF, name
 		cBleeding = "NONE"
 		end
 
-	
-	--	TriggerEvent('chatMessage', "Eastbound Medical", {255,0 , 0}, cNameF.." "..cNameL.."^1 DECLARED DEAD. ^6 PLEASE RESPAWN.!")
-		
 	else
 		timer = 0
 		cBlood = -1
@@ -152,8 +155,6 @@ AddEventHandler('hw_medsystem:near', function(x, y, z, pulse, blood, nameF, name
 		cArea = ""
 		cBleeding = "SLOW"
 	end
-	
-
 end)
 
 -- Thread to display player's health information
@@ -227,11 +228,19 @@ function SendMedicalRequest(requestType)
             local playerCoords = GetEntityCoords(GetPlayerPed(-1))
             
             TriggerServerEvent('hw_medsystem:print', requestType, math.floor(pulse * (blood / 90)), area, blood, playerCoords.x, playerCoords.y, playerCoords.z, bleeding)
-			ESX.ShowNotification('~g~You have checked yourself.', -1)
+			if Config.Framework == 'ESX' then
+				ESX.ShowNotification('~g~You have checked yourself.', -1)
+			elseif Config.Framework == 'QBCore' then
+				QBCore.Functions.Notify('You have checked yourself.', 'success', 5000)
+			end
 		else
 			print("^1Something went wrong! Please contact the script developer...")
-			ESX.ShowNotification('~r~Something went wrong! Please contact the script developer...', -1)
-		end
+			if Config.Framework == 'ESX' then
+				ESX.ShowNotification('~r~Something went wrong! Please contact the script developer...', -1)
+			elseif Config.Framework == 'QBCore' then
+				QBCore.Functions.Notify('Something went wrong! Please contact the script developer...', 'error', 5000)
+			end
+        end
     elseif Config.IDmode == 'player' then
         local nearestPlayerId = GetNearestPlayerId()
         if nearestPlayerId ~= -1 then
@@ -241,14 +250,21 @@ function SendMedicalRequest(requestType)
                 local playerCoords = GetEntityCoords(GetPlayerPed(nearestPlayerId))
                 
                 TriggerServerEvent('hw_medsystem:print', requestType, math.floor(pulse * (blood / 90)), area, blood, playerCoords.x, playerCoords.y, playerCoords.z, bleeding)
-				ESX.ShowNotification('~g~You have checked nearby person.', -1)
+				if Config.Framework == 'ESX' then
+					ESX.ShowNotification('~g~You have checked nearby person.', -1)
+				elseif Config.Framework == 'QBCore' then
+					QBCore.Functions.Notify('You have checked nearby person.', 'success', 5000)
+				end
             end
         else
             print("^1No players nearby.")
-			ESX.ShowNotification('~r~No players nearby.', -1)
+			if Config.Framework == 'ESX' then
+				ESX.ShowNotification('~r~No players nearby.', -1)
+			elseif Config.Framework == 'QBCore' then
+				QBCore.Functions.Notify('No players nearby.', 'error', 5000)
+			end
         end
     end
 end
-
 
 exports('SendMedicalRequest', SendMedicalRequest)

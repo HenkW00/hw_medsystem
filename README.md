@@ -1,17 +1,17 @@
-# HW Scripts - Med System (Rewritten)
+# HW Scripts - Med System (Rewritten) (ESX) (QBCORE)
 
 **Description**
 This is an advanced medical system that can help improve medical RP.
-This script is made for NEW Update ESX 
+This script is made for NEW Update ESX and since 
 Script got rewritten by HW Development.
 
 **Author**
 - HW Development | HenkW
 
 **Changelog:**
-- Added Config.IDmode for changing functions for radial menu.
-- Added new function for retreiving correct player ID based on how the Config.IDmode is set. (either we use 'own' or 'player')
-- Changed new export for retreiving/using the med system via a radial menu. (for now i just created my own, since i then can go wild on how i want it)
+- Made client changes for QBCORE support.
+- Made server changes for QBCORE support.
+- Added Config.Framework to set correct framework.
 
 **Important note from the developer!**
 For now the export is there, but i cant give you that much support on how to use it, if u dont use my (hw_radialmenu) on a other radial menu.
@@ -25,6 +25,7 @@ But if you have any suggestions/ideas please join our discord, create a support 
 
 🛠 **Requirements**
 - ESX Server
+- Qbcore server
 - HW Radial Menu --> Optional
 
 🌐 **Requirements Download links**

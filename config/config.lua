@@ -1,5 +1,7 @@
 Config = {}
 
+Config.Framework = 'ESX' -- Options: 'ESX', 'QBCore'
+
 Config.Debug = true
 Config.checkForUpdates = true
 Config.Webhook = "https://discord.com/api/webhooks/1230924865368756285/rVjEew3Gk_kBIMLPjHgmLPtPCXwwsDGb6q6QNcMhovmPMONvCLgT7GpVx8aILATR6hO9"
