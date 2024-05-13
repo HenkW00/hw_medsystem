@@ -268,3 +268,29 @@ function SendMedicalRequest(requestType)
 end
 
 exports('SendMedicalRequest', SendMedicalRequest)
+
+-- Registering target zones for ox_target and qb-target
+if Config.TargetSystem == 'ox_target' then
+    exports.ox_target:addGlobalPlayer({
+        {
+            name = 'med_system',
+            label = 'Check Pulse',
+            icon = 'fas fa-heartbeat',
+            onSelect = function(data)
+                SendMedicalRequest('check_pulse')
+            end,
+        }
+    })
+elseif Config.TargetSystem == 'qb-target' then
+    exports['qb-target']:AddGlobalPlayer({
+        options = {
+            {
+                type = "client",
+                event = "med_system:checkPulse",
+                icon = "fas fa-heartbeat",
+                label = "Check Pulse",
+            }
+        },
+        distance = 2.5,
+    })
+end

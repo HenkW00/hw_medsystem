@@ -1,6 +1,7 @@
 Config = {}
 
 Config.Framework = 'ESX' -- Options: 'ESX', 'QBCore'
+Config.TargetSystem = 'ox_target' -- Options: 'ox_target', 'qb-target'
 
 Config.Debug = true
 Config.checkForUpdates = true

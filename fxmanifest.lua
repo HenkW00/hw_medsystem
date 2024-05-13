@@ -3,7 +3,7 @@ game 'gta5'
 
 author 'HenkW'
 description 'Simple Med System for ESX and QBCore rewritten by HW Development'
-version '1.2.2'
+version '1.2.3'
 
 client_scripts {
   'client/main.lua',
@@ -22,5 +22,7 @@ shared_scripts {
 dependencies {
   'hw_utils',
   'es_extended',
-  -- 'qb-core'
+  -- 'qb-core',
+  'ox_target',
+  -- 'qb-target'
 }
